@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "362011728050",
+    "project_id": "dams-phojo",
+    "storage_bucket": "dams-phojo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362011728050:android:5c86ab1185bdeb3c6391ab",
+        "android_client_info": {
+          "package_name": "com.example.damsphojo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "362011728050-0n928vt5bf7021ltk27obunvk5163lv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoJMqrBCH0hAOOkKDuw4eQxGuI_h1J3OU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "362011728050-0n928vt5bf7021ltk27obunvk5163lv7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
