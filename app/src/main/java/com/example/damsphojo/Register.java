@@ -109,23 +109,31 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(Register.this, "Registered Successfully", Toast.LENGTH_LONG).show();
-                    userID = mAuth.getCurrentUser().getUid();
-                    DocumentReference documentReference = mStore.collection("Users").document("userID");
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("fName", fullName);
-                    user.put("mEmail", email);
-                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "onSuccess: User profile is created for" + userID);
-                        }
-                    });
-                    startActivity(new Intent(Register.this, MainActivity.class));
-                } else {
-                    Toast.makeText(Register.this, "Registeration failed.", Toast.LENGTH_LONG).show();
-                }
+                // Create a new user with a first and last name
+                Map<String, Object> user = new HashMap<>();
+                user.put("fname", fullName);
+                user.put("email", email);
+
+                // Add a new document with a generated ID
+                mStore.collection("users")
+                        .add(user)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                Toast.makeText(Register.this, "Registration Successful", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(Register.this, MainActivity.class));
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                                Toast.makeText(Register.this, "Registration Failed. Please try again.", Toast.LENGTH_LONG).show();
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
             }
         });
     }

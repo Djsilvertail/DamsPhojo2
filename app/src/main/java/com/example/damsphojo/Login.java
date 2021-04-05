@@ -48,6 +48,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         mForgotPassword = findViewById(R.id.tvForgotPassword);
         mForgotPassword.setOnClickListener(this);
+
+        if(user != null){
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
     }
 
     @Override
