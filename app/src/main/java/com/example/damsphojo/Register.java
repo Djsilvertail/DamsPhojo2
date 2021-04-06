@@ -109,7 +109,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                // Create a new user with a first and last name
+                // Create a new user with their full name and email.
                 Map<String, Object> user = new HashMap<>();
                 user.put("fname", fullName);
                 user.put("email", email);
