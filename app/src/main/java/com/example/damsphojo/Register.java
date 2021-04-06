@@ -38,7 +38,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mStore;
-    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
