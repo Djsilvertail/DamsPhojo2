@@ -30,7 +30,17 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Register
+ * Allows the user to register a new account.
+ * @author Dana llewellyn
+ */
+
 public class Register extends AppCompatActivity implements View.OnClickListener {
+
+    /**
+     * Private variables
+     */
     public static final String TAG = "TAG";
     private EditText mFullName, mEmail, mPassword;
     private Button register;
@@ -39,6 +49,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mStore;
 
+    /**
+     * onCreate
+     * Builds the necessary objects so the user
+     * can register.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +76,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         banner.setOnClickListener(this);
     }
 
+    /**
+     * onClick
+     * Listens for button clicks and
+     * either sends the user to the new activity
+     * or calls the registerUser method.
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -71,34 +94,44 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    /**
+     * registerUser
+     * Allows the user to create a new account.
+     * the edit texts.
+     */
     public void registerUser() {
         String fullName = mFullName.getText().toString();
         String email = mEmail.getText().toString().trim();
         String password = mPassword.getText().toString().trim();
 
+        //checks to make sure the user didn't forget to put in their name.
         if (fullName.isEmpty()) {
             mFullName.setError("Full name is required.");
             mFullName.requestFocus();
             return;
         }
 
+        //checks to make sure the user didn't forget to put in their email.
         if (email.isEmpty()) {
             mEmail.setError("Email is required.");
             mEmail.requestFocus();
             return;
         }
 
+        //checks to make sure the user inputted a valid email.
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             mEmail.setError("Must be a valid email.");
             mEmail.requestFocus();
             return;
         }
 
+        //checks to make sure the user didn't forget to put in their password.
         if (password.isEmpty()) {
             mPassword.setError("Password is required.");
             return;
         }
 
+        //checks to make sure the password is at least six characters long.
         if (password.length() < 6) {
             mPassword.setError("Password must be >= 6 characters.");
             return;

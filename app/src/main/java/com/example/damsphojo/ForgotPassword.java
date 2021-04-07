@@ -20,14 +20,29 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.w3c.dom.Text;
 
+/**
+ * ForgotPassword
+ * Allows the user to reset their password
+ * if forgotten.
+ * @author Dana llewellyn
+ */
 public class ForgotPassword extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * Private variables
+     */
     private EditText editPassword;
     private TextView title;
     private Button reset;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
 
+    /**
+     * onCreate
+     * Builds the necessary objects so the user
+     * can reset their password.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +60,13 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    /**
+     * onClick
+     * Listens for button clicks and
+     * either sends the user to the new activity
+     * or calls the resetPassword method.
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch(v.getId()){
@@ -56,6 +78,11 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * resetPassword
+     * Allows the user to reset their password.
+     * the edit texts.
+     */
     public void resetPassword(){
         String email = editPassword.getText().toString().trim();
         if(email.isEmpty()){
@@ -73,6 +100,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility(View.VISIBLE);
         mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
+            //If the user exists in the database it sends the user an email to change their password.
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(ForgotPassword.this, "Request is successful. Please check your email to reset your password.", Toast.LENGTH_LONG).show();

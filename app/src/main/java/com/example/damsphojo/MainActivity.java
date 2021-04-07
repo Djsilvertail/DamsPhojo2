@@ -43,8 +43,17 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * MainActivity
+ * User's landing page. Allows the user to chose their profile pic.
+ * @author Dana llewellyn
+ */
+
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Private variables
+     */
     private static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
@@ -53,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentPhotoPath = null;
 
+    /**
+     * onCreate
+     * Builds the necessary objects so the user
+     * can display their profile picture.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
         logOut = findViewById(R.id.btnLogOut);
         logOut.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * onClick
+             * Allows the user to logout.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
@@ -73,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
         cameraBtn = findViewById(R.id.btnCamera);
         cameraBtn.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * Listens for a button click.
+             * When clicked it allows the user to
+             * take a picture and use it as their
+             * profile picture.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 askCameraPermissions();
@@ -81,24 +110,43 @@ public class MainActivity extends AppCompatActivity {
 
 
         galleryBtn.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * Listens for a button click.
+             * When clicked it allows the user to
+             * select a picture from their gallery
+             * and use it as their
+             * profile picture.
+             * @param v
+             */
             @Override
             public void onClick(View v) {
                 Intent gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(gallery, GALLERY_REQUEST_CODE);
             }
         });
-
     }
 
+    /**
+     * askCameraPermissions
+     * Allows the user to give permission
+     * to the app to use the camera
+     */
     private void askCameraPermissions() {
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, (Integer) CAMERA_PERM_CODE);
         }else {
             dispatchTakePictureIntent();
         }
-
     }
 
+    /**
+     * Checks to see if the user has
+     * given their camera permission to be used
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == CAMERA_PERM_CODE){
@@ -110,8 +158,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
+    /**
+     * Allows the user to chose a picture
+     * from their gallery
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -127,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
             }
-
         }
 
         if (requestCode == GALLERY_REQUEST_CODE) {
@@ -138,10 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " + imageFileName);
                 selectedImage.setImageURI(contentUri);
             }
-
         }
-
-
     }
 
     private String getFileExt(Uri contentUri) {
@@ -151,6 +200,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Takes the picture and gives it a name
+     * @return
+     * @throws IOException
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -169,6 +223,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Uploads the picture to the users
+     * profile.
+     */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
