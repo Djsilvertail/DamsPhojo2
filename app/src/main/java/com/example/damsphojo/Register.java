@@ -147,11 +147,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             return;
         }
 
-        if(!password.equals(confirmPass)) {
+        /*if(!password.equals(confirmPass)) {
             cPassword.setError("Passwords don't match. Please try again.");
             cPassword.requestFocus();
             return;
-        }
+        }*/
 
         progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Private variables
      */
-    private Button logOut;
+    private Button logOut, resetBtn;
     private FirebaseAuth mAuth;
 
     /**
@@ -69,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+
+        resetBtn = findViewById(R.id.btnNewReset);
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * onClick
+             * Allows the user to logout.
+             * @param v
+             */
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ResetPassword.class));
+                finish();
+            }
+        });
 
         logOut = findViewById(R.id.btnLogOut);
         logOut.setOnClickListener(new View.OnClickListener() {
