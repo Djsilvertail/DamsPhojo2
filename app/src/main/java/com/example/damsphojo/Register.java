@@ -42,7 +42,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
      * Private variables
      */
     public static final String TAG = "TAG";
-    private EditText mFullName, mEmail, mPassword;
+    private EditText mFullName, mEmail, mPassword, cPassword;
     private Button register;
     private TextView banner;
     private ProgressBar progressBar;
@@ -63,6 +63,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         mFullName = findViewById(R.id.etFirstName);
         mEmail = findViewById(R.id.etEmail);
         mPassword = findViewById(R.id.etPassword);
+        cPassword = findViewById(R.id.cPassword);
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -103,6 +104,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String fullName = mFullName.getText().toString();
         String email = mEmail.getText().toString().trim();
         String password = mPassword.getText().toString().trim();
+        String confirmPass = cPassword.getText().toString().trim();
 
         //checks to make sure the user didn't forget to put in their name.
         if (fullName.isEmpty()) {
@@ -128,12 +130,26 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         //checks to make sure the user didn't forget to put in their password.
         if (password.isEmpty()) {
             mPassword.setError("Password is required.");
+            mPassword.requestFocus();
             return;
         }
 
         //checks to make sure the password is at least six characters long.
         if (password.length() < 6) {
             mPassword.setError("Password must be >= 6 characters.");
+            mPassword.requestFocus();
+            return;
+        }
+
+        if(confirmPass.isEmpty()){
+            cPassword.setError("Please make sure you confirm your password.");
+            cPassword.requestFocus();
+            return;
+        }
+
+        if(!password.equals(confirmPass)) {
+            cPassword.setError("Passwords don't match. Please try again.");
+            cPassword.requestFocus();
             return;
         }
 
